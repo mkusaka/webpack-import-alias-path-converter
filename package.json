@@ -1,0 +1,20 @@
+{
+  "name": "webpack-import-alias-path-converter",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/mkusaka/webpack-import-alias-path-converter.git",
+  "author": "mkusaka <hinoshita1992@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^6.1.0",
+    "jscodeshift": "^0.10.0"
+  },
+  "devDependencies": {
+    "@types/jscodeshift": "^0.7.1",
+    "@types/webpack": "^4.41.21",
+    "typescript": "^4.0.2"
+  },
+  "scripts": {
+    "shift": "jscodeshift -t transformer.js example --extensions=js,ts,tsx"
+  }
+}
