@@ -32,7 +32,12 @@ module.exports = function (fileInfo, api) {
       /** @type {any} */
       const importName = path.node.source.value;
       if (
-        aliasedKeys.some((key) => importName.match(new RegExp(`^${key}/`))) ||
+        aliasedKeys.some((key) =>
+          importName.match(
+            // `import foo from "aliased/sub"` or `import foo from "aliased"`
+            new RegExp(`^${key}/`) || importName.match(new RegExp(`^${key}$`))
+          )
+        ) ||
         (options.allowDepth > 0 &&
           importName.match(
             new RegExp(`^${relativePathRegExp(options.allowDepth)}`)
