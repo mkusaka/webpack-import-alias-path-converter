@@ -1,3 +1,3 @@
 export default {
-  b: 3,
+  a: 1,
 };
