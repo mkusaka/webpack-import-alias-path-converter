@@ -8,6 +8,19 @@ const pathAlias = {
 
 const aliasedKeys = Object.keys(pathAlias);
 
+const options = {
+  // allowd relative hell depth.
+  allowDepth: 1,
+};
+
+/** @param {number} depth */
+const relativePathRegExp = (depth) => {
+  if (depth === 1) {
+    return "\\.\\/";
+  }
+  return Array(depth).fill("\\.\\.\\/").join("");
+};
+
 /**
  * @type {import("jscodeshift").Transform}
  */
@@ -18,7 +31,13 @@ module.exports = function (fileInfo, api) {
     .forEach((path) => {
       /** @type {any} */
       const importName = path.node.source.value;
-      if (aliasedKeys.some((key) => importName.match(new RegExp(`^${key}`)))) {
+      if (
+        aliasedKeys.some((key) => importName.match(new RegExp(`^${key}/`))) ||
+        (options.allowDepth > 0 &&
+          importName.match(
+            new RegExp(`^${relativePathRegExp(options.allowDepth)}`)
+          ))
+      ) {
         return;
       }
       const sourceDirectoryPath = resolve(dirname(fileInfo.path));
