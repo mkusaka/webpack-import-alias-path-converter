@@ -41,7 +41,8 @@ module.exports = function (fileInfo, api) {
         (options.allowDepth > 0 &&
           importName.match(
             new RegExp(`^${relativePathRegExp(options.allowDepth)}`)
-          ))
+          )) ||
+        !importName.match(/^\./)
       ) {
         return;
       }
